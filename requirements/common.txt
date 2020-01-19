@@ -1,2 +1,5 @@
 # dependencies common to all environments
 Django==1.11.27
+slackbot
+boto3
+slackclient
