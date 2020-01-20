@@ -33,3 +33,4 @@ artifacts:
     - 'template-configuration.json'
     - 'slackbot_settings.py'
     - 'plugins/**/*'
+    - 'run.py'
