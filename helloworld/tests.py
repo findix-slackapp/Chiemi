@@ -3,11 +3,17 @@ from helloworld.views import HomePageView
 from unittest import mock
 import slack
 import slackbot_settings
+import slackbot.dispatcher
+import plugins.hello
+from helloworld.models import Response
+from helloworld.models import Sorry
 
 class HelloWorldTestCase(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
+        self.greeting = Response.objects.create(question="おはよう", answer="おはようございます")
+        self.sorry = Sorry.objects.create(answer="え！")
 
     def test_home_page(self):
         request = self.factory.get('/')
@@ -76,3 +82,20 @@ class HelloWorldTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'test')
         client.chat_postMessage.assert_called_with(channel="CHXS0FH5M",text="test",as_user=True)
+
+    def test_mention_func_greeting(self):
+        body = {'text': 'おはよう'}
+        excepted = 'おはようございます'
+        self.assert_called_massage_reply(body, excepted)
+
+    def test_mention_func_sorry(self):
+        body = {'text': 'こんにちは'}
+        excepted = 'え！'
+        self.assert_called_massage_reply(body, excepted)
+
+    def assert_called_massage_reply(self, body, excepted):
+        message = slackbot.dispatcher.Message(None, body)
+        message.reply = mock.MagicMock()
+        plugins.hello.mention_func(message)
+
+        message.reply.assert_called_with(excepted)
