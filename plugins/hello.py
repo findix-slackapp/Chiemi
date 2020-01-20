@@ -42,6 +42,7 @@ def mention_func(message):
     else:
         message.reply(obj.answer) # メンション
         sys.stdout.write("%s,output,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), obj.answer))
+    sys.stdout.flush()
 
 def user_name(user_id):
     client = slack.WebClient(token=slackbot_settings.API_TOKEN)
