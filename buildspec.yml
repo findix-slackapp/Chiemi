@@ -32,3 +32,4 @@ artifacts:
     - 'supervisord.conf'
     - 'template-configuration.json'
     - 'slackbot_settings.py'
+    - 'plugins/**/*'

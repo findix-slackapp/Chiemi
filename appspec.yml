@@ -15,6 +15,10 @@ files:
    destination: /home/ec2-user/requirements
  - source: /slackbot_settings.py
    destination: /home/ec2-user
+ - source: /run.py
+   destination: /home/ec2-user
+ - source: /plugins/
+   destination: /home/ec2-user/plugins
 
 permissions:
   - object: /home/ec2-user/manage.py
