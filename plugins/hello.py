@@ -7,6 +7,9 @@ import re
 from helloworld.models import Response
 from helloworld.models import Sorry
 import random
+import slack
+import slackbot_settings
+import datetime
 
 # @respond_to('string')     bot宛のメッセージ
 #                           stringは正規表現が可能 「r'string'」
@@ -25,6 +28,8 @@ import random
 #                               文字列中に':'はいらない
 @respond_to('.*')
 def mention_func(message):
+    tz_jst = datetime.timezone(datetime.timedelta(hours=9))
+    print("%s,input,@%s,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), user_name(message.body['user']), message.body['text']))
     querySet = Response.objects.extra(where=["question glob %s"],params=[message.body['text']])
     obj = querySet.first()
     if obj is None:
@@ -32,5 +37,13 @@ def mention_func(message):
         if querySet.count() > 0:
             obj = random.choice(querySet)
             message.reply(obj.answer) # メンション
+            print("%s,output,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), obj.answer))
     else:
         message.reply(obj.answer) # メンション
+        print("%s,output,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), obj.answer))
+
+def user_name(user_id):
+    client = slack.WebClient(token=slackbot_settings.API_TOKEN)
+    users = client.users_list()
+    names = [x['profile']['display_name'] for x in users['members'] if x['id'] == user_id]
+    return names[0]
