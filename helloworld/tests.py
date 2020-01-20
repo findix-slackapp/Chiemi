@@ -84,12 +84,12 @@ class HelloWorldTestCase(TestCase):
         client.chat_postMessage.assert_called_with(channel="CHXS0FH5M",text="test",as_user=True)
 
     def test_mention_func_greeting(self):
-        body = {'text': 'おはよう'}
+        body = {'text': 'おはよう', 'user': 'UB9AVTDT3'}
         excepted = 'おはようございます'
         self.assert_called_massage_reply(body, excepted)
 
     def test_mention_func_sorry(self):
-        body = {'text': 'こんにちは'}
+        body = {'text': 'こんにちは', 'user': 'UB9AVTDT3'}
         excepted = 'え！'
         self.assert_called_massage_reply(body, excepted)
 
