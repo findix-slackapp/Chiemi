@@ -31,3 +31,4 @@ artifacts:
     - 'requirements.txt'
     - 'supervisord.conf'
     - 'template-configuration.json'
+    - 'slackbot_settings.py'
