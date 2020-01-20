@@ -30,7 +30,7 @@ import sys
 @respond_to('.*')
 def mention_func(message):
     tz_jst = datetime.timezone(datetime.timedelta(hours=9))
-    sys.stdout.write("%s,input,@%s,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), user_name(message.body['user']), message.body['text']))
+    sys.stdout.write("\r%s,input,@%s,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), user_name(message.body['user']), message.body['text']))
     querySet = Response.objects.extra(where=["question glob %s"],params=[message.body['text']])
     obj = querySet.first()
     if obj is None:
@@ -38,10 +38,10 @@ def mention_func(message):
         if querySet.count() > 0:
             obj = random.choice(querySet)
             message.reply(obj.answer) # メンション
-            sys.stdout.write("%s,output,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), obj.answer))
+            sys.stdout.write("\r%s,output,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), obj.answer))
     else:
         message.reply(obj.answer) # メンション
-        sys.stdout.write("%s,output,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), obj.answer))
+        sys.stdout.write("\r%s,output,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), obj.answer))
     sys.stdout.flush()
 
 def user_name(user_id):
