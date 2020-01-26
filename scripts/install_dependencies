@@ -7,3 +7,5 @@ cd /home/ec2-user
 virtualenv-3.6 environment
 source environment/bin/activate
 pip install -r requirements.txt
+python manage.py flush --noinput
+python manage.py loaddata seed
