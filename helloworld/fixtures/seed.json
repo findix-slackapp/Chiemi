@@ -1,0 +1,83 @@
+[
+	{
+		"model": "helloworld.response",
+		"pk": 1,
+		"fields": {
+			"question": "おはよう",
+			"answer": "おはようございます"
+		}
+	},
+	{
+		"model": "helloworld.response",
+		"pk": 2,
+		"fields": {
+			"question": "こんにちは",
+			"answer": "こんにちは"
+		}
+	},
+	{
+		"model": "helloworld.response",
+		"pk": 3,
+		"fields": {
+			"question": "こんばんは",
+			"answer": "こんばんは"
+		}
+	},
+	{
+		"model": "helloworld.response",
+		"pk": 4,
+		"fields": {
+			"question": "おつかれ",
+			"answer": "おつかれさまです"
+		}
+	},
+	{
+		"model": "helloworld.sorry",
+		"pk": 1,
+		"fields": {
+			"answer": "え？"
+		}
+	},
+	{
+		"model": "helloworld.sorry",
+		"pk": 2,
+		"fields": {
+			"answer": "は？"
+		}
+	},
+	{
+		"model": "helloworld.sorry",
+		"pk": 3,
+		"fields": {
+			"answer": "？？"
+		}
+	},
+	{
+		"model": "helloworld.sorry",
+		"pk": 4,
+		"fields": {
+			"answer": "・・・"
+		}
+	},
+	{
+		"model": "helloworld.sorry",
+		"pk": 5,
+		"fields": {
+			"answer": "ちょっと何言ってるか分からないｗ"
+		}
+	},
+	{
+		"model": "helloworld.sorry",
+		"pk": 6,
+		"fields": {
+			"answer": "ちょｗ"
+		}
+	},
+	{
+		"model": "helloworld.sorry",
+		"pk": 7,
+		"fields": {
+			"answer": "ウケるｗ"
+		}
+	}
+]
