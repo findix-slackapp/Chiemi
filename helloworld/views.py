@@ -20,13 +20,13 @@ class HomePageView(TemplateView):
           prj_channel = client.channels_info(channel="CBU2YJSGM")
           if prj_channel["channel"]["members"].count(user_id) > 0:
               if "text" in request.POST:
-                  params = request.POST["text"].split(",")
+                  params = request.POST["text"].split(" ")
                   if len(params) > 1:
                     if params[1]:
                         channels = client.channels_list()
                         send_channel = ""
                         for channel in channels['channels']:
-                            if params[0] == channel['name']:
+                            if params[0].lstrip("#") == channel['name']:
                                 send_channel = channel['id']
                                 break
                         if send_channel:
