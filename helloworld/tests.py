@@ -39,7 +39,7 @@ class HelloWorldTestCase(TestCase):
         self.assertContains(response, 'unauthorized user')
 
     def test_post_return_no_parameter(self):
-        data = {"user_id": "UB9AVTDT3"}
+        data = {"user_id": "UB9AVTDT3", "channel_name": "prj-slackapp"}
         request = self.factory.post('/', data)
         response = HomePageView.as_view()(request)
         self.assertEqual(response.get('content-type'), 'text/plain')
@@ -47,7 +47,7 @@ class HelloWorldTestCase(TestCase):
         self.assertContains(response, 'no parameter')
 
     def test_post_return_invalid_parameter(self):
-        data = {"user_id": "UB9AVTDT3", "text": "#prj-slackapp-test"}
+        data = {"user_id": "UB9AVTDT3", "channel_name": "prj-slackapp", "text": "#prj-slackapp-test"}
         request = self.factory.post('/', data)
         response = HomePageView.as_view()(request)
         self.assertEqual(response.get('content-type'), 'text/plain')
@@ -55,7 +55,7 @@ class HelloWorldTestCase(TestCase):
         self.assertContains(response, 'invalid parameter')
 
     def test_post_return_no_message(self):
-        data = {"user_id": "UB9AVTDT3", "text": "#prj-slackapp-test "}
+        data = {"user_id": "UB9AVTDT3", "channel_name": "prj-slackapp", "text": '#prj-slackapp-test ""'}
         request = self.factory.post('/', data)
         response = HomePageView.as_view()(request)
         self.assertEqual(response.get('content-type'), 'text/plain')
@@ -63,7 +63,7 @@ class HelloWorldTestCase(TestCase):
         self.assertContains(response, 'no message')
 
     def test_post_return_invalid_channel(self):
-        data = {"user_id": "UB9AVTDT3", "text": "#abc test"}
+        data = {"user_id": "UB9AVTDT3", "channel_name": "prj-slackapp", "text": '#abc "test"'}
         request = self.factory.post('/', data)
         response = HomePageView.as_view()(request)
         self.assertEqual(response.get('content-type'), 'text/plain')
@@ -75,7 +75,7 @@ class HelloWorldTestCase(TestCase):
         slack.WebClient = mock.MagicMock(return_value=client)
         client.chat_postMessage = mock.MagicMock()
 
-        data = {"user_id": "UB9AVTDT3", "text": "#prj-slackapp-test test"}
+        data = {"user_id": "UB9AVTDT3", "channel_name": "prj-slackapp", "text": '#prj-slackapp-test "test"'}
         request = self.factory.post('/', data)
         response = HomePageView.as_view()(request)
         self.assertEqual(response.get('content-type'), 'text/plain')
