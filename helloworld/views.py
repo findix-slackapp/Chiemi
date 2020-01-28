@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import slack
 import slackbot_settings
+import re
 
 
 # Create your views here.
@@ -20,22 +21,23 @@ class HomePageView(TemplateView):
           prj_channel = client.channels_info(channel="CBU2YJSGM")
           if prj_channel["channel"]["members"].count(user_id) > 0:
               if "text" in request.POST:
-                  params = request.POST["text"].split(" ")
-                  if len(params) > 1:
-                    if params[1]:
-                        channels = client.channels_list()
-                        send_channel = ""
-                        for channel in channels['channels']:
-                            if params[0].lstrip("#") == channel['name']:
-                                send_channel = channel['id']
-                                break
-                        if send_channel:
-                            client.chat_postMessage(channel=send_channel, text=params[1], as_user=True)
-                            rs = params[1]
-                        else:
-                            rs = "invalid channel" 
-                    else:
-                        rs = "no message"
+                  params = re.match(r'#(\S+)\s"(.*?)(?<!\\)"', request.POST["text"])
+                  if params is not None:
+                      if len(params.group(2)) > 0:
+                          channels = client.channels_list()
+                          send_channel = ""
+                          if params.group(1) != request.POST["channel_name"]:
+                              for channel in channels['channels']:
+                                  if params.group(1) == channel['name']:
+                                      send_channel = channel['id']
+                                      break
+                          if send_channel:
+                              client.chat_postMessage(channel=send_channel, text=params.group(2), as_user=True)
+                              rs = params.group(2)
+                          else:
+                              rs = "invalid channel"
+                      else:
+                          rs = "no message"
                   else:
                       rs = "invalid parameter"
               else:
