@@ -31,17 +31,16 @@ import sys
 def mention_func(message):
     tz_jst = datetime.timezone(datetime.timedelta(hours=9))
     print("%s,input,@%s,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), user_name(message.body['user']), message.body['text']))
-    querySet = Response.objects.extra(where=["question glob %s"],params=[message.body['text']])
-    obj = querySet.first()
-    if obj is None:
+    answer_list = [o.answer for o in Response.objects.all() if re.match(o.question, message.body['text'])]
+    if len(answer_list) == 0:
         querySet = Sorry.objects.all()
         if querySet.count() > 0:
             obj = random.choice(querySet)
             message.reply(obj.answer) # メンション
             print("%s,output,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), obj.answer))
     else:
-        message.reply(obj.answer) # メンション
-        print("%s,output,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), obj.answer))
+        message.reply(answer_list[0]) # メンション
+        print("%s,output,%s" % (datetime.datetime.now(tz_jst).strftime('%Y/%m/%d %H:%M:%S'), answer_list[0]))
     sys.stdout.flush()
 
 def user_name(user_id):

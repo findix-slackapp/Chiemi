@@ -21,7 +21,7 @@ class HomePageView(TemplateView):
           prj_channel = client.channels_info(channel="CBU2YJSGM")
           if prj_channel["channel"]["members"].count(user_id) > 0:
               if "text" in request.POST:
-                  params = re.match(r'#(\S+)\s"(.*?)(?<!\\)"', request.POST["text"])
+                  params = re.match(r'#(\S+)\s"?(.*)(?<!")"?', request.POST["text"])
                   if params is not None:
                       if len(params.group(2)) > 0:
                           channels = client.channels_list()
