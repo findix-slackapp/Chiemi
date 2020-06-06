@@ -1,5 +1,5 @@
 # dependencies common to all environments
-Django==1.11.27
+Django==1.11.29
 slackbot
 boto3
 slackclient
